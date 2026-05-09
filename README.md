@@ -13,7 +13,7 @@ This repository intentionally does not include dataset files, LSMI prior files, 
 
 ## Data
 
-Dataset files are distributed separately. After downloading or mounting the data, place it under `data/` with this structure:
+Dataset files are distributed separately at [Zenodo record 20092123](https://zenodo.org/records/20092123). After downloading or mounting the data, place it under `data/` with this structure:
 
 ```text
 data/
@@ -69,6 +69,8 @@ The response collector does not set `max_tokens` for OpenAI-compatible calls and
 ## Train SRCoD
 
 SRCoD requires an external LSMI metrics CSV. The LSMI prior files are intentionally not packaged.
+
+The structural prior can be produced with the LSMI estimator code at [GeWu-Lab/LSMI_Estimator](https://github.com/GeWu-Lab/LSMI_Estimator).
 
 ```bash
 python scripts/train_srcod.py \
