@@ -1,0 +1,11 @@
+data/
+outputs/
+response_matrix/
+*.parquet
+*.pt
+*.pth
+__pycache__/
+*.pyc
+.env
+.venv/
+venv/

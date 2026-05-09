@@ -1,0 +1,11 @@
+dataset: ScienceQA
+backend: ollama
+models: []
+data_root: data
+output_dir: outputs/ScienceQA_responses
+ollama_base_url: http://127.0.0.1:11434
+timeout: 600
+max_retries: 2
+retry_backoff: 2.0
+temperature: 0.0
+save_every: 20
