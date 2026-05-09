@@ -9,7 +9,6 @@ This repository contains the minimal code needed to collect response matrices an
 - `scripts/train_srcod.py`: train SRCoD from a response matrix and an external LSMI metrics CSV.
 - `scripts/verify_package.py`: verify externally provided data, labels, images, and packaging constraints.
 
-This repository intentionally does not include dataset files, LSMI prior files, existing response matrices, API keys, or a `response_matrix/` directory.
 
 ## Data
 
