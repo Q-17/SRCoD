@@ -6,7 +6,7 @@ SRCoD is a Structure-Response Co-calibrated Diagnosis framework for item-level m
 
 <p align="center">
   <img
-    src="https://github.com/user-attachments/assets/e4a841f0-e267-4a47-a2d8-217307936b99"
+    src="image.png"
     width="750"
   />
 </p>
