@@ -1,14 +1,35 @@
 # SRCoD
 
-This repository contains the minimal code needed to collect response matrices and train SRCoD.
+> Code implementation for **“Are Multimodal Benchmarks Really Useful? Item-Level Multimodal Benchmark Diagnosis via Structure-Response Co-Calibration”**, a **NeurIPS 2026 submission**.
 
-## Contents
+SRCoD is a Structure-Response Co-calibrated Diagnosis framework for item-level multimodal benchmark diagnosis. It combines intrinsic item structure with extrinsic model response behavior to identify whether a benchmark item mainly depends on redundant, visual-dominant, textual-dominant, or synergistic evidence.
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/e4a841f0-e267-4a47-a2d8-217307936b99"
+    width="750"
+  />
+</p>
+
+---
+
+## Overview
+
+Multimodal benchmarks are widely used to evaluate whether vision-language models can reason over information from multiple modalities. However, some benchmark items may be answerable from a single modality or from answer-option regularities alone, which makes aggregate accuracy insufficient for diagnosing true cross-modal reasoning ability.
+
+SRCoD addresses this problem through **item-level benchmark diagnosis**. Given a multimodal benchmark, SRCoD:
+
+1. estimates item-level multimodal benchmark structure information with PID metrics;
+2. collects model responses under controlled modality conditions;
+3. anchors a modality-conditioned response model with intrinsic structural priors;
+4. produces a calibrated diagnostic profile for each item.
+
+This repository contains the minimal code needed to:
 
 - `srcod/`: dataset loaders, prompt construction, model clients, response collection, and SRCoD.
 - `scripts/collect_responses.py`: collect response matrices with Ollama or a generic OpenAI-compatible API.
 - `scripts/train_srcod.py`: train SRCoD from a response matrix and an external LSMI metrics CSV.
 - `scripts/verify_package.py`: verify externally provided data, labels, images, and packaging constraints.
-
 
 ## Data
 
