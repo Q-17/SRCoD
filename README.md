@@ -31,9 +31,11 @@ This repository contains the minimal code needed to:
 - `scripts/train_srcod.py`: train SRCoD from a response matrix and an external LSMI metrics CSV.
 - `scripts/verify_package.py`: verify externally provided data, labels, images, and packaging constraints.
 
-## Data
+## Dataset
 
-Dataset files are distributed separately at [Zenodo record 20092123](https://zenodo.org/records/20092123). After downloading or mounting the data, place it under `data/` with this structure:
+Dataset files are distributed separately at [Zenodo](https://zenodo.org/records/20092123).
+
+After downloading or mounting the data, place it under `data/` with the following structure:
 
 ```text
 data/
@@ -43,7 +45,19 @@ data/
   SEED-Bench/
 ```
 
-The labels used by SRCoD are human-annotated labels.
+The human-labeled diagnostic labels used by SRCoD are provided separately. They are used to evaluate whether the predicted item-level diagnostic factor agrees with human evidence-sufficiency judgments.
+
+Expected label files:
+
+```text
+data/
+  ScienceQA/
+    labels.csv
+  MMMU/
+    labels.csv
+  SEED-Bench/
+    labels.csv
+```
 
 ## Install
 
