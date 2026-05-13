@@ -102,9 +102,7 @@ The response collector does not set `max_tokens` for OpenAI-compatible calls and
 
 ## Train SRCoD
 
-SRCoD requires an external LSMI metrics CSV. The LSMI prior files are intentionally not packaged.
-
-The structural prior can be produced with the LSMI estimator code at [GeWu-Lab/LSMI_Estimator](https://github.com/GeWu-Lab/LSMI_Estimator).
+SRCoD requires an external CSV file containing item-level PID metric estimates. These structural-prior files can be estimated with the external estimator code at [LSMI_Estimator](https://github.com/GeWu-Lab/LSMI_Estimator). The expected metrics correspond to item-level multimodal interaction components, including redundant, visual-unique, textual-unique, and synergistic evidence.
 
 ```bash
 python scripts/train_srcod.py \
