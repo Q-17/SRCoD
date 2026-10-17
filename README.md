@@ -35,8 +35,7 @@ The public human-annotation dataset is **hosted separately on Kaggle**; original
 
 ## Data availability
 
-**SRCoD: Human-Annotated Multimodal Diagnosis**  
-[Kaggle release](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
+**SRCoD: Human-Annotated Multimodal Diagnosis**  [Kaggle release](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
 
 The release contains 3,000 human diagnostic labels, with 1,000 fixed examples from each of **ScienceQA**, **MMMU**, and **SEED-Bench**. Each `labels.csv` contains only `item_id` and `source_type_label`.
 
@@ -49,7 +48,6 @@ The release contains 3,000 human diagnostic labels, with 1,000 fixed examples fr
 
 The Kaggle download includes a `MANIFEST.json` with frozen sample identifiers and content fingerprints, along with reconstruction instructions. Refer to the dataset README and the paper's Appendix C for the sampling and human-annotation protocol. The diagnostic labels are used **for evaluation**, not to fit SRCoD.
 
-**Dataset metadata:** The separate Croissant Core + Responsible AI metadata describing Kaggle **v4** has passed JSON, schema, RAI-field, and record-generation validation. This metadata is maintained separately from the labels-only dataset archive; passing metadata validation does not by itself establish end-to-end experimental reproducibility.
 
 ### Obtain the original benchmarks
 
