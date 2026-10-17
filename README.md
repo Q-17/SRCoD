@@ -35,7 +35,7 @@ The public human-annotation dataset is **hosted separately on Kaggle**; original
 
 ## Data availability
 
-**SRCoD: Human-Annotated Multimodal Diagnosis**  [Kaggle release](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
+**Human-Annotated Multimodal Diagnosis**  [Kaggle release](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
 
 The release contains 3,000 human diagnostic labels, with 1,000 fixed examples from each of **ScienceQA**, **MMMU**, and **SEED-Bench**. Each `labels.csv` contains only `item_id` and `source_type_label`.
 
@@ -60,11 +60,61 @@ The labels-only release does not redistribute source questions, options, answers
 The reconstruction script checks sample identifiers and content/image hashes against the release manifest. An upstream dataset revision that changes an item can cause reconstruction to stop rather than silently change the evaluation set.
 
 
-## Install
+## Installation
+
+Python **3.10** is recommended. The paper reports experiments using Python 3.10.1, PyTorch 2.7.0 and CUDA 12.6.
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/Q-17/SRCoD.git
+cd SRCoD
+python -m pip install -r requirements.txt
 ```
+
+For model-response collection, also configure either [Ollama](https://ollama.com/) with a local vision-language model or access to an OpenAI-compatible chat-completions API. 
+
+
+
+## Prepare Data
+
+The Kaggle release contains human-annotated labels only. To reproduce the experiments, the original benchmark questions, answers, and images must be obtained separately from their official sources.
+
+After downloading and extracting the [Kaggle dataset](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4), use the provided reconstruction script to prepare the experimental data.
+
+Run the following command from the root of this repository:
+
+```bash
+python /path/to/SRCoD-Dataset/scripts/prepare_data.py \
+  --release-root /path/to/SRCoD-Dataset \
+  --scienceqa-root /path/to/ScienceQA \
+  --mmmu-root /path/to/MMMU \
+  --mmmu-test-answers /path/to/MMMU/answer_dict_test.json \
+  --seedbench-root /path/to/SEED-Bench \
+  --output-dir data
+```
+
+Replace the example paths with the locations of your downloaded datasets.
+
+The script reconstructs the fixed evaluation samples and verifies their identifiers and content hashes against `MANIFEST.json`.
+
+The reconstructed data will have the following structure:
+
+```text
+data/
+├── MANIFEST.json
+├── ScienceQA/
+│   ├── items.parquet
+│   ├── labels.csv
+│   └── images/
+├── MMMU/
+│   ├── items.parquet
+│   └── labels.csv
+└── SEED-Bench/
+    ├── items.parquet
+    ├── labels.csv
+    └── images/
+```
+
+To reconstruct only one benchmark, add `--datasets ScienceQA`, `--datasets MMMU`, or `--datasets SEED-Bench`.
 
 ## Verify Package
 
