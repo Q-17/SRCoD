@@ -39,6 +39,7 @@ def train_srcod(
     epochs: int = 300,
     lambda_profile_kl: float = 0.1,
     tau_lsmi_prior: float = 1.0,
+    lsmi_prior_conf_gamma: float = 0.0,
     z_clip_quantile: float = 0.995,
 ) -> SRCoDTrainResult:
     required_cols = ["model_id", "item_id", "s_image", "s_text", "correct"]
@@ -71,6 +72,12 @@ def train_srcod(
     z_std = np.where(z_std < 1e-8, 1.0, z_std)
     z_item_std = ((z_raw - z_mean) / z_std).astype(np.float32)
     q_lsmi_prior_np = _build_lsmi_profile_prior_from_raw(z_raw, tau=tau_lsmi_prior)["q"]
+    prior_entropy_np = -np.sum(
+        q_lsmi_prior_np * np.log(q_lsmi_prior_np + 1e-12), axis=1
+    )
+    prior_confidence_np = np.clip(1.0 - prior_entropy_np / np.log(4.0), 0.0, 1.0)
+    lsmi_prior_conf_gamma = max(float(lsmi_prior_conf_gamma), 0.0)
+    prior_weight_np = np.maximum(0.0, prior_confidence_np - lsmi_prior_conf_gamma)
 
     model_idx = torch.tensor(data["model_id"].astype(str).map(model_to_idx).values, dtype=torch.long)
     item_idx = torch.tensor(data["item_id"].astype(str).map(item_to_idx).values, dtype=torch.long)
@@ -92,6 +99,7 @@ def train_srcod(
     optimizer = torch.optim.Adam(model.parameters(), lr=float(lr))
     ce_loss_fn = nn.BCEWithLogitsLoss()
     q_lsmi_prior = torch.tensor(q_lsmi_prior_np, dtype=torch.float32, device=torch_device)
+    prior_weight = torch.tensor(prior_weight_np, dtype=torch.float32, device=torch_device)
     history: list[dict[str, float]] = []
 
     for epoch in range(1, int(epochs) + 1):
@@ -110,10 +118,11 @@ def train_srcod(
             ce_loss = ce_loss_fn(logits, mb_y)
             profile = model.profile_from_mean_theta()
             q_model = profile["q"]
-            profile_kl = torch.sum(
+            profile_kl_item = torch.sum(
                 q_lsmi_prior * (torch.log(q_lsmi_prior + 1e-12) - torch.log(q_model + 1e-12)),
                 dim=1,
-            ).mean()
+            )
+            profile_kl = torch.mean(prior_weight * profile_kl_item)
             loss = ce_loss + float(lambda_profile_kl) * profile_kl
 
             optimizer.zero_grad()
@@ -146,10 +155,12 @@ def train_srcod(
             )
 
     item_scores = _export_item_scores(model, item_ids, q_lsmi_prior_np)
+    item_scores["lsmi_prior_entropy"] = prior_entropy_np
+    item_scores["lsmi_prior_weight"] = prior_weight_np
     model_scores = _export_model_scores(model, model_ids)
     summary = {
         "method": "SRCoD",
-        "loss": "BCEWithLogitsLoss + lambda_profile_kl * KL(LSMI_prior || SRCoD_profile)",
+        "loss": "BCEWithLogitsLoss + lambda_profile_kl * mean(lsmi_prior_weight * KL(LSMI_prior || SRCoD_profile))",
         "num_models": len(model_ids),
         "item_count": len(item_ids),
         "num_response_rows": int(len(data)),
@@ -161,6 +172,7 @@ def train_srcod(
         "lr": float(lr),
         "lambda_profile_kl": float(lambda_profile_kl),
         "tau_lsmi_prior": float(tau_lsmi_prior),
+        "lsmi_prior_conf_gamma": lsmi_prior_conf_gamma,
         "z_clip_quantile": float(z_clip_quantile),
         "final_train_loss": history[-1]["train_loss"] if history else None,
         "final_val_ce": history[-1]["val_ce"] if history else None,
