@@ -13,9 +13,9 @@ class AnswerParser:
         if not raw:
             return None, "empty_response"
 
-        first = raw.strip().upper()[:1]
-        if first in valid:
-            return first, None
+        normalized = raw.upper()
+        if len(normalized) == 1 and normalized in valid:
+            return normalized, None
 
         patterns = [
             r"\b(?:ANSWER|OPTION|CHOICE)\s*[:：]?\s*([A-Z])\b",
