@@ -27,6 +27,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--epochs", type=int, default=300)
     p.add_argument("--lambda-profile-kl", type=float, default=0.1)
     p.add_argument("--tau-lsmi-prior", type=float, default=1.0)
+    p.add_argument("--lsmi-prior-conf-gamma", type=float, default=0.0)
     p.add_argument("--z-clip-quantile", type=float, default=0.995)
     p.add_argument("--log-level", type=str, default="INFO")
     return p.parse_args()
@@ -58,6 +59,7 @@ def main() -> None:
         epochs=args.epochs,
         lambda_profile_kl=args.lambda_profile_kl,
         tau_lsmi_prior=args.tau_lsmi_prior,
+        lsmi_prior_conf_gamma=args.lsmi_prior_conf_gamma,
         z_clip_quantile=args.z_clip_quantile,
     )
 
