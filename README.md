@@ -1,15 +1,17 @@
 # SRCoD
 
-> Code implementation for **“Are Multimodal Benchmarks Really Useful? Item-Level Multimodal Benchmark Diagnosis via Structure-Response Co-Calibration”**, a **NeurIPS 2026 submission**.
+**Accepted at NeurIPS 2026, Evaluations & Datasets Track (Poster)**
 
-SRCoD is a Structure-Response Co-calibrated Diagnosis framework for item-level multimodal benchmark diagnosis. It combines intrinsic item structure with extrinsic model response behavior to identify whether a benchmark item mainly depends on redundant, visual-dominant, textual-dominant, or synergistic evidence.
+**Paper:** *Are Multimodal Benchmarks Really Useful? Item-Level Multimodal Benchmark Diagnosis via Structure-Response Co-Calibration*
+
+[**Code**](https://github.com/Q-17/SRCoD) · [**Human-annotated dataset (Kaggle)**](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
+
+SRCoD (**S**tructure-**R**esponse **Co**-calibrated **D**iagnosis) is a framework for item-level multimodal benchmark diagnosis. It combines an intrinsic structural prior, estimated from item-level multimodal interactions, with modality-conditioned responses from vision-language models (VLMs). The resulting diagnostic profile characterizes the evidence dependence of each benchmark item.
 
 <p align="center">
-  <img
-    src="image.png"
-    width="750"
-  />
+  <img src="image.png" alt="Overview of the SRCoD framework" width="800" />
 </p>
+
 
 ---
 
