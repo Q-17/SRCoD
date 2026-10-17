@@ -113,3 +113,18 @@ python scripts/train_srcod.py \
   --epochs 300 \
   --output-dir outputs/ScienceQA_srcod
 ```
+
+## License
+
+The source code is released under the MIT License.
+The human-annotated dataset is licensed under CC BY 4.0.
+
+Third-party benchmark materials remain subject to their original licenses.
+
+## Citation
+
+If you use SRCoD or the diagnostic annotations, please cite the accompanying paper:
+
+> Shiqi Zhang, Weixin Zeng, Ziheng Zhang, Jiuyang Tang, and Xiang Zhao. *Are Multimodal Benchmarks Really Useful? Item-Level Multimodal Benchmark Diagnosis via Structure-Response Co-Calibration.* NeurIPS 2026, Evaluations & Datasets Track (Poster).
+
+
