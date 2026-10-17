@@ -139,7 +139,7 @@ python scripts/collect_responses.py \
 OpenAI-compatible API example:
 
 ```bash
-set OPENAI_API_KEY=your_api_key
+export OPENAI_API_KEY="your_api_key"
 python scripts/collect_responses.py \
   --dataset ScienceQA \
   --backend openai \
