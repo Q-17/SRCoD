@@ -4,8 +4,6 @@
 
 **Paper:** *Are Multimodal Benchmarks Really Useful? Item-Level Multimodal Benchmark Diagnosis via Structure-Response Co-Calibration*
 
-[**Code**](https://github.com/Q-17/SRCoD) · [**Human-annotated dataset (Kaggle)**](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
-
 SRCoD (**S**tructure-**R**esponse **Co**-calibrated **D**iagnosis) is a framework for item-level multimodal benchmark diagnosis. It combines an intrinsic structural prior, estimated from item-level multimodal interactions, with modality-conditioned responses from vision-language models (VLMs). The resulting diagnostic profile characterizes the evidence dependence of each benchmark item.
 
 <p align="center">
@@ -33,33 +31,36 @@ This repository contains the minimal code needed to:
 - `scripts/train_srcod.py`: train SRCoD from a response matrix and an external LSMI metrics CSV.
 - `scripts/verify_package.py`: verify externally provided data, labels, images, and packaging constraints.
 
-## Dataset
+The public human-annotation dataset is **hosted separately on Kaggle**; original third-party benchmark images and questions are **not** included in this code repository or in the labels-only Kaggle release.
 
-Dataset files are distributed separately at [Zenodo](https://zenodo.org/records/20092123).
+## Data availability
 
-After downloading or mounting the data, place it under `data/` with the following structure:
+**SRCoD: Human-Annotated Multimodal Diagnosis**  
+Kaggle release: [dataset landing page](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis) · [version 4 (used here)](https://www.kaggle.com/datasets/nudtdmzzh/srcod-human-annotated-multimodal-diagnosis/versions/4)
 
-```text
-data/
-  MANIFEST.json
-  MMMU/
-  ScienceQA/
-  SEED-Bench/
-```
+The release contains 3,000 human diagnostic labels, with 1,000 fixed examples from each of **ScienceQA**, **MMMU**, and **SEED-Bench**. Each `labels.csv` contains only `item_id` and `source_type_label`.
 
-The human-labeled diagnostic labels used by SRCoD are provided separately. They are used to evaluate whether the predicted item-level diagnostic factor agrees with human evidence-sufficiency judgments.
+| Source benchmark | Redundant | Visual-dominant | Textual-dominant | Synergistic | Total |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ScienceQA | 475 | 250 | 154 | 121 | 1,000 |
+| MMMU | 266 | 172 | 169 | 393 | 1,000 |
+| SEED-Bench | 267 | 339 | 117 | 277 | 1,000 |
+| **Total** | **1,008** | **761** | **440** | **791** | **3,000** |
 
-Expected label files:
+The Kaggle download includes a `MANIFEST.json` with frozen sample identifiers and content fingerprints, along with reconstruction instructions. Refer to the dataset README and the paper's Appendix C for the sampling and human-annotation protocol. The diagnostic labels are used **for evaluation**, not to fit SRCoD.
 
-```text
-data/
-  ScienceQA/
-    labels.csv
-  MMMU/
-    labels.csv
-  SEED-Bench/
-    labels.csv
-```
+**Dataset metadata:** The separate Croissant Core + Responsible AI metadata describing Kaggle **v4** has passed JSON, schema, RAI-field, and record-generation validation. This metadata is maintained separately from the labels-only dataset archive; passing metadata validation does not by itself establish end-to-end experimental reproducibility.
+
+### Obtain the original benchmarks
+
+The labels-only release does not redistribute source questions, options, answers, or images. Obtain them through their respective official channels, subject to each source's license and access requirements:
+
+- [ScienceQA](https://github.com/lupantech/ScienceQA): `problems.json` and the official split-specific images.
+- [MMMU](https://huggingface.co/datasets/MMMU/MMMU): original subject/split Parquet files. For test-split samples, also obtain the [official test answer file](https://github.com/MMMU-Benchmark/MMMU/blob/main/mmmu/answer_dict_test.json).
+- [SEED-Bench](https://github.com/AILab-CVC/SEED-Bench): `SEED-Bench.json` and original `SEED-Bench-image/` assets.
+
+The reconstruction script checks sample identifiers and content/image hashes against the release manifest. An upstream dataset revision that changes an item can cause reconstruction to stop rather than silently change the evaluation set.
+
 
 ## Install
 
