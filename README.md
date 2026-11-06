@@ -7,7 +7,7 @@
 SRCoD (**S**tructure-**R**esponse **Co**-calibrated **D**iagnosis) is a framework for item-level multimodal benchmark diagnosis. It combines an intrinsic structural prior, estimated from item-level multimodal interactions, with modality-conditioned responses from vision-language models (VLMs). The resulting diagnostic profile characterizes the evidence dependence of each benchmark item.
 
 <p align="center">
-  <img src="image.png" alt="Overview of the SRCoD framework" width="800" />
+  <img src="image.png" alt="Overview of our paper" width="800" />
 </p>
 
 
